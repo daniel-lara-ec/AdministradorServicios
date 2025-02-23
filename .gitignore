@@ -1,0 +1,6 @@
+venv-django-mainserv/
+.vscode/
+db.sqlite3
+__pycache__/
+*.pyc
+.env
