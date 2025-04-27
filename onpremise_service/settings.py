@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from identity.django import Auth
 import os
 from dotenv import load_dotenv
 
@@ -23,18 +22,34 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 client_id = os.getenv("APP_ID")
 client_secret = os.getenv("SECRET_ENTRA")
+tenant_id = os.getenv("TENANT_ID")
 authority = "https://login.microsoftonline.com/alephsub0.org"
 redirect_uri = "https://servicios-onpremise.alephsub0.org/authentraredirect"
+AD_GRUPO_ADMIN = os.getenv("AD_GRUPO_ADMIN")
+AD_GRUPO_STAFF = os.getenv("AD_GRUPO_STAFF")
 
+AUTH_ADFS = {
+    "AUDIENCE": client_id,
+    "CLIENT_ID": client_id,
+    "CLIENT_SECRET": client_secret,
+    "CLAIM_MAPPING": {
+        "first_name": "given_name",
+        "last_name": "family_name",
+        "email": "upn",
+    },
+    "GROUPS_CLAIM": "groups",
+    "GROUP_TO_FLAG_MAPPING": {
+        "is_staff": AD_GRUPO_ADMIN,
+        "is_superuser": AD_GRUPO_STAFF,
+    },
+    "MIRROR_GROUPS": True,
+    "USERNAME_CLAIM": "upn",
+    "TENANT_ID": tenant_id,
+    "RELYING_PARTY_ID": client_id,
+}
 
-AUTH = Auth(
-    client_id,
-    client_credential=client_secret,
-    authority=authority,
-    redirect_uri=redirect_uri,
-)
-
-
+MAC_ADDRESS_PDA = os.getenv("MAC_ADDRESS_PDA")
+IP_PDA = os.getenv("IP_PDA")
 MAC_ADDRESS_SFS = os.getenv("MAC_ADDRESS_SFS")
 IP_SFS = os.getenv("IP_SFS")
 USER_SFS = os.getenv("USER_SFS")
@@ -65,12 +80,16 @@ dict_servidores = {
     },
     "servidor_qfgql": {
         "nombre_vm": "srv-dev-worker-1",
-        "grupo_recursos": GRUPO_RECURSOS_PRODUCCION
+        "grupo_recursos": GRUPO_RECURSOS_PRODUCCION,
     },
     "servidor_ndlql": {
         "nombre_vm": "srv-dev-worker-2",
-        "grupo_recursos": GRUPO_RECURSOS_DESARROLLO
-    }
+        "grupo_recursos": GRUPO_RECURSOS_DESARROLLO,
+    },
+    "servidor_pdwdaq": {
+        "servidor": MAC_ADDRESS_PDA,
+        "ip": IP_PDA,
+    },
 }
 
 
@@ -80,9 +99,15 @@ dict_servidores = {
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+
+AUTHENTICATION_BACKENDS = [
+    "django_auth_adfs.backend.AdfsAuthCodeBackend",
+    "django_auth_adfs.backend.AdfsAccessTokenBackend",
+]
 
 
 INSTALLED_APPS = [
@@ -92,7 +117,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "identity",
+    "django_auth_adfs",
 ]
 
 MIDDLEWARE = [
@@ -181,7 +206,8 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-LOGIN_URL = "/"
+LOGIN_URL = "django_auth_adfs:login"
+LOGIN_REDIRECT_URL = "/"
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = "/srv/www/static/"
