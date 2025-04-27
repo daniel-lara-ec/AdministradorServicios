@@ -61,7 +61,7 @@ TIPO_PDW = os.getenv("TIPO_PDW")
 SSH_KEY_NAME = os.getenv("SSH_KEY_NAME")
 MAC_ADDRESS_QAP = os.getenv("MAC_ADDRESS_QAP")
 IP_QAP = os.getenv("IP_QAP")
-
+VAR_DEBUG = os.getenv("VAR_DEBUG")
 
 GRUPO_RECURSOS_DESARROLLO = os.getenv("GRUPO_RECURSOS_DESARROLLO")
 GRUPO_RECURSOS_PRODUCCION = os.getenv("GRUPO_RECURSOS_PRODUCCION")
@@ -99,7 +99,10 @@ dict_servidores = {
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = True
+if VAR_DEBUG == "False":
+    DEBUG = False
+elif VAR_DEBUG == "True":
+    DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
