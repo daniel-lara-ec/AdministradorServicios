@@ -59,6 +59,10 @@ IP_PDW = os.getenv("IP_PDW")
 USER_PDW = os.getenv("USER_PDW")
 TIPO_PDW = os.getenv("TIPO_PDW")
 SSH_KEY_NAME = os.getenv("SSH_KEY_NAME")
+MAC_ADDRESS_QAP = os.getenv("MAC_ADDRESS_QAP")
+IP_QAP = os.getenv("IP_QAP")
+
+
 GRUPO_RECURSOS_DESARROLLO = os.getenv("GRUPO_RECURSOS_DESARROLLO")
 GRUPO_RECURSOS_PRODUCCION = os.getenv("GRUPO_RECURSOS_PRODUCCION")
 
@@ -78,17 +82,13 @@ dict_servidores = {
         "usuario": USER_PDW,
         "tipo": TIPO_PDW,
     },
-    "servidor_qfgql": {
-        "nombre_vm": "srv-dev-worker-1",
-        "grupo_recursos": GRUPO_RECURSOS_PRODUCCION,
-    },
-    "servidor_ndlql": {
-        "nombre_vm": "srv-dev-worker-2",
-        "grupo_recursos": GRUPO_RECURSOS_DESARROLLO,
-    },
     "servidor_pdwdaq": {
         "servidor": MAC_ADDRESS_PDA,
         "ip": IP_PDA,
+    },
+    "servidor_qapldqede": {
+        "servidor": MAC_ADDRESS_QAP,
+        "ip": IP_QAP,
     },
 }
 
