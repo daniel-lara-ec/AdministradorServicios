@@ -9,3 +9,4 @@ identity==0.8.1
 gunicorn 
 psycopg2-binary
 python-dotenv
+django-auth-adfs

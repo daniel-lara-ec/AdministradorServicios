@@ -5,16 +5,16 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.conf import settings
 from django.views.decorators.http import require_http_methods
 
 
-@settings.AUTH.login_required(scopes="User.Read".split())
+@login_required
 @require_http_methods(["GET"])
-def panel(request, *, context):
+def panel(request):
     return render(request, "panel.html")
 
 
+@login_required
 def IniciarSesion(request):
     if request.method == "GET":
         return render(request, "login.html", {"form": AuthenticationForm})

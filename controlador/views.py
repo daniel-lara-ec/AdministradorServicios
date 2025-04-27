@@ -1,11 +1,16 @@
 from wakeonlan import send_magic_packet
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import paramiko
 from ping3 import ping
 import traceback
-from django.conf import settings
-from onpremise_service.settings import dict_servidores,SSH_KEY_NAME,CLAVE_API_AZURE,RUTA_API_CLOUD_VM
+from onpremise_service.settings import (
+    dict_servidores,
+    SSH_KEY_NAME,
+    CLAVE_API_AZURE,
+    RUTA_API_CLOUD_VM,
+)
 import requests
 
 key_path = f"/home/dmlaran/.ssh/{SSH_KEY_NAME}"
@@ -13,8 +18,8 @@ shutdown_command_linux = "sudo shutdown now"
 shutdown_command_windows = "shutdown /s /f /t 0"
 
 
-@settings.AUTH.login_required(scopes="User.Read".split())
-def iniciar_servidor(request, servidor, *, context):
+@login_required
+def iniciar_servidor(request, servidor):
 
     validacion_encendido = ping(dict_servidores[servidor]["ip"], timeout=1)
     if validacion_encendido is None or validacion_encendido is False:
@@ -43,7 +48,7 @@ def iniciar_servidor(request, servidor, *, context):
         return redirect("panel")
 
 
-@settings.AUTH.login_required(scopes="User.Read".split())
+@login_required
 def apagar_servidor(request, servidor, *, context):
 
     validacion_encendido = ping(dict_servidores[servidor]["ip"], timeout=1)
@@ -118,13 +123,12 @@ def apagar_servidor(request, servidor, *, context):
         ssh_client.close()
 
 
-@settings.AUTH.login_required(scopes="User.Read".split())
+@login_required
 def iniciar_servidor_azure(request, servidor, *, context):
 
     DatosServidor = dict_servidores[servidor]
     NombreVM = DatosServidor["nombre_vm"]
     GrupoRecursos = DatosServidor["grupo_recursos"]
-
 
     respuesta = requests.get(
         f"{RUTA_API_CLOUD_VM}start?code={CLAVE_API_AZURE}&resource_group_name={GrupoRecursos}&vm_name={NombreVM}"
@@ -132,7 +136,7 @@ def iniciar_servidor_azure(request, servidor, *, context):
 
     json_respuesta = respuesta.json()
 
-    if json_respuesta['codigo'] == 200:
+    if json_respuesta["codigo"] == 200:
         messages.success(
             request,
             "Se ha enviado a Azure la solicitud de inicio al servidor con éxito.",
@@ -144,8 +148,9 @@ def iniciar_servidor_azure(request, servidor, *, context):
             f"Error al enviar la solicitud de inicio al servidor: {json_respuesta['Mensaje']}",
         )
         return redirect("panel")
-    
-@settings.AUTH.login_required(scopes="User.Read".split())
+
+
+@login_required
 def apagar_servidor_azure(request, servidor, *, context):
 
     DatosServidor = dict_servidores[servidor]
@@ -158,7 +163,7 @@ def apagar_servidor_azure(request, servidor, *, context):
 
     json_respuesta = respuesta.json()
 
-    if json_respuesta['codigo'] == 200:
+    if json_respuesta["codigo"] == 200:
         messages.success(
             request,
             "Se ha enviado a Azure la solicitud de detención con éxito.",

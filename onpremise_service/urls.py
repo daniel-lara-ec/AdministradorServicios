@@ -18,10 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import CerrarSesion, panel
-from django.conf import settings
 
 urlpatterns = [
-    settings.AUTH.urlpattern,
+    path("oauth2/", include("django_auth_adfs.urls")),
     path("admin/", admin.site.urls),
     path("panel/", include("controlador.urls")),
     path("", panel, name="panel"),

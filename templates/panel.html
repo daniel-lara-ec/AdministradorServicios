@@ -26,8 +26,12 @@
                         <img style="width:10%" src="{% static 'img/LogoBlanco.png' %}" />
                     </a>
                 </div>
+                <div class="navbar-right" style="position: absolute; right: 20px; top: 15px;">
+                    <a class="navbar-brand" style="color: #fff;">Hola, {{ user.get_full_name }}</a>
+                </div>
             </div>
         </div>
+
         <!-- /. NAV TOP  -->
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
@@ -37,7 +41,7 @@
                     </li>
 
                     <li>
-                        <a href="{% url 'identity.logout' %}"><i class="fa fa-edit"></i>Cerrar sesión</a>
+                        <a href="{% url 'django_auth_adfs:logout' %}"><i class="fa fa-edit"></i>Cerrar sesión</a>
                     </li>
                 </ul>
             </div>
@@ -67,34 +71,24 @@
                     <hr />
 
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <h4>Servidor: srv-dev-worker-1</h4>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <h5>Acciones</h5>
-                        <a href="{% url 'apagar_servidor_azure' 'servidor_qfgql'%}" class="btn btn-danger">Apagar</a>
-                        <a href="{% url 'iniciar_servidor_azure' 'servidor_qfgql'%}" class="btn btn-success">Encender</a>
-                    </div>
-
-                    <hr />
-
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <h4>Servidor srv-dev-worker-2</h4>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <h5>Acciones</h5>
-                        <a href="{% url 'apagar_servidor_azure' 'servidor_ndlql'%}" class="btn btn-danger">Apagar</a>
-                        <a href="{% url 'iniciar_servidor_azure' 'servidor_ndlql'%}" class="btn btn-success">Encender</a>
-                    </div>
-
-                    <hr />
-
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <h4>Servidor Windows Server</h4>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <h5>Acciones</h5>
                         <a href="{% url 'apagar_servidor' 'servidor_pdweaf'%}" class="btn btn-danger">Apagar</a>
                         <a href="{% url 'inciar_servidor' 'servidor_pdweaf'%}" class="btn btn-success">Encender</a>
+                    </div>
+
+                    <hr />
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <h4>Servidor: Servidor RDP</h4>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <h5>Acciones</h5>
+                        <a href="{% url 'apagar_servidor' 'servidor_pdwdaq'%}" class="btn btn-danger"
+                            disabled>Apagar</a>
+                        <a href="{% url 'inciar_servidor' 'servidor_pdwdaq'%}" class="btn btn-success">Encender</a>
                     </div>
 
                 </div>
@@ -109,25 +103,17 @@
                                 Información
                             </div>
                             <div class="panel-body">
-                                <p>Actualmente solo es posible encender los servidores.</p>
+                                <p>Recuerde que la disponibilidad de los servidores está sujeta a la disponibilidad de
+                                    energía
+                                    eléctrica en el centro de datos.</p>
                             </div>
                             <div class="panel-footer">
-                                Actualizado: 26/10/2024
+                                Actualizado: 29/03/2025
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <!-- /. ROW  -->
-                <hr />
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <h5>Información</h5>
-                        Recuerde que la disponibilidad de los servidores está sujeta a la disponibilidad de energía
-                        eléctrica en el centro de datos.
-                    </div>
-                </div>
-                <!-- /. ROW  -->
 
             </div>
         </div>
@@ -136,7 +122,7 @@
     <div class="footer">
         <div class="row">
             <div class="col-lg-12">
-                &copy; 2024 Alephsub0 | Design by: <a href="http://binarytheme.com" style="color:#fff;"
+                &copy; 2025 Alephsub0 | Design by: <a href="http://binarytheme.com" style="color:#fff;"
                     target="_blank">www.binarytheme.com</a>
             </div>
         </div>
