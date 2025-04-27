@@ -91,29 +91,23 @@
                         <a href="{% url 'inciar_servidor' 'servidor_pdwdaq'%}" class="btn btn-success">Encender</a>
                     </div>
 
+                    <hr />
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <h4>Servidor: Servidor Active Directory</h4>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <h5>Acciones</h5>
+                        <a href="{% url 'apagar_servidor' 'servidor_qapldqede'%}" class="btn btn-danger"
+                            disabled>Apagar</a>
+                        <a href="{% url 'inciar_servidor' 'servidor_qapldqede'%}" class="btn btn-success">Encender</a>
+                    </div>
+
                 </div>
                 <!-- /. ROW  -->
                 <hr>
 
 
-                <div class="row">
-                    <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                Información
-                            </div>
-                            <div class="panel-body">
-                                <p>Recuerde que la disponibilidad de los servidores está sujeta a la disponibilidad de
-                                    energía
-                                    eléctrica en el centro de datos.</p>
-                            </div>
-                            <div class="panel-footer">
-                                Actualizado: 29/03/2025
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
 
             </div>
         </div>
