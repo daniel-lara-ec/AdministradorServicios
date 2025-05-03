@@ -49,7 +49,7 @@ def iniciar_servidor(request, servidor):
 
 
 @login_required
-def apagar_servidor(request, servidor, *, context):
+def apagar_servidor(request, servidor):
 
     validacion_encendido = ping(dict_servidores[servidor]["ip"], timeout=1)
     if validacion_encendido is None or validacion_encendido is False:
@@ -124,7 +124,7 @@ def apagar_servidor(request, servidor, *, context):
 
 
 @login_required
-def iniciar_servidor_azure(request, servidor, *, context):
+def iniciar_servidor_azure(request, servidor):
 
     DatosServidor = dict_servidores[servidor]
     NombreVM = DatosServidor["nombre_vm"]
@@ -151,7 +151,7 @@ def iniciar_servidor_azure(request, servidor, *, context):
 
 
 @login_required
-def apagar_servidor_azure(request, servidor, *, context):
+def apagar_servidor_azure(request, servidor):
 
     DatosServidor = dict_servidores[servidor]
     NombreVM = DatosServidor["nombre_vm"]
